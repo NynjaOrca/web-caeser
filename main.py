@@ -25,20 +25,20 @@ def encrypt():
     try:
         rot_value = int(rot_value)
     except ValueError:
-        return value_error_template.render()
+        return value_error_template.render(invalid_char="'" + cgi.escape(rot_value) + "'")
 
     user_message = request.form['text']
 
     encrypted_message = rotate_string(cgi.escape(user_message), rot_value)
 
-    return template.render() + "<strong>Your encrypted message:</strong> " + cgi.escape(encrypted_message)
+    return template.render(success_banner="YOUR ENCRYPTED MESSAGE:",message=encrypted_message) 
 
 
 
 @app.route("/")
 def index():
     template = jinja_env.get_template('caeser_form.html')
-    return template.render()
+    return template.render(message='')
 
 
 app.run()
